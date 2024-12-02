@@ -28,18 +28,41 @@ function App() {
       author: "Cornelis Cornelisz. van Haarlem",
       imageUrl: "https://lh5.ggpht.com/JH0svNh0Pkov_W97MDHw8v2-qKS8AdixVJ-CiPL_xBECNdEyTBkicMvZBsqgW6GQ0TB9moKnfGUYacWQS32rqeoEjA4=s0",
     },
+    {
+      title: "Banquet at the Crossbowmen’s Guild in Celebration of the Treaty of Münster",
+      author: "Bartholomeus van der Helst",
+      imageUrl: "https://lh3.googleusercontent.com/kmCDKP1kMN72zB-7CHBOBdCnyU3Z-NW7WIzuN_sIqm5n9xf6lG4oTtfcWsGW8qhbVYuwSDkYlhOglx7z4YaFL8UeFWU=s0",
+    },
+    {
+      title: "A Mother Delousing her Child’s Hair, Known as ‘A Mother’s Duty’",
+      author: "Pieter de Hooch",
+      imageUrl: "https://lh3.googleusercontent.com/6Vm9nYrTeeYe5wl7lOafEHUnbzNF8KJw3ZbV_cNBr_wQTyHyp1DJxEWEEK3OSuji9XGYx04r15HTVPu850WeFcOd0ZVv=s0",
+    },
+    {
+      title: "The Merry Fiddler",
+      author: "Gerard van Honthorst",
+      imageUrl: "https://lh3.googleusercontent.com/yhCV7ZeW9YjyfRD0cCyvH7HjIzjKpSw0uA238qNblAEFCy3yH6Yu5LRllNFpgcowX0EYmo6CLSJcKM7Tym57pFTvOHXqJNXclGOctmHr=s0",
+    },
+    {
+      title: "Children of the Sea",
+      author: "Jozef Israëls",
+      imageUrl: "https://lh3.googleusercontent.com/BMvxPb9RF9F-qz68PAIIrROTp7G352oNEzZWmmT-H1YXSgf2Id33oQBssFYnPL52KwiyFgYY1pSInpEVrhrx1OViFQ=s0",
+    },
   ];
 
   return (
-    <div className="painting-grid">
-      {paintings.map((painting, index) => (
-        <PaintingDisplay
-          key={index}
-          title={painting.title}
-          author={painting.author}
-          imageUrl={painting.imageUrl}
-        />
-      ))}
+    <div>
+      <h1 className="page-title">Bienvenue, voici mes plus belles peintures</h1>
+      <div className="painting-grid">
+        {paintings.map((painting, index) => (
+          <PaintingDisplay
+            key={index}
+            title={painting.title}
+            author={painting.author}
+            imageUrl={painting.imageUrl}
+          />
+        ))}
+      </div>
     </div>
   );
 }
