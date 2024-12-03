@@ -55,6 +55,11 @@ function App() {
       imageUrl: "https://lh3.googleusercontent.com/BMvxPb9RF9F-qz68PAIIrROTp7G352oNEzZWmmT-H1YXSgf2Id33oQBssFYnPL52KwiyFgYY1pSInpEVrhrx1OViFQ=s0",
     },
   ];
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
@@ -81,6 +86,13 @@ function App() {
       <h1 className="page-title">
         Bienvenue, voici mes plus belles peintures
       </h1>
+      <input
+        type="text"
+        placeholder="Rechercher une peinture..."
+        value={searchTerm}
+        onChange={handleSearchChange}
+        className="search-bar"
+      />
       <div className="painting-grid">
         {currentItems.map((painting, index) => (
           <PaintingDisplay
