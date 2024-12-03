@@ -79,7 +79,7 @@ function App() {
   return (
     <div>
       <h1 className="page-title">
-        Bienvenue, voici mes plus belles peintures (Bon en vrai c'est pas vraiment les miennes quoi, mais bon !!)
+        Bienvenue, voici mes plus belles peintures
       </h1>
       <div className="painting-grid">
         {currentItems.map((painting, index) => (
