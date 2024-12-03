@@ -1,5 +1,6 @@
-import PaintingDisplay from './PaintingDisplay';
-import './App.css';
+import { useState } from "react";
+import PaintingDisplay from "./PaintingDisplay";
+import "./App.css";
 
 function App() {
   const paintings = [
@@ -34,11 +35,6 @@ function App() {
       imageUrl: "https://lh3.googleusercontent.com/X7_CHCjksOZYu4gIGa45Edj1tMymdiz2o3pbL6HqqVEszWvPzrM6iIwHzaWNqgsWLcm7VmHCQyuQowWSSImQYLF8qW48zmZ-rx309F3c=s0",
     },
     {
-      title: "Children of the Sea",
-      author: "Jozef Israëls",
-      imageUrl: "https://lh3.googleusercontent.com/BMvxPb9RF9F-qz68PAIIrROTp7G352oNEzZWmmT-H1YXSgf2Id33oQBssFYnPL52KwiyFgYY1pSInpEVrhrx1OViFQ=s0",
-    },
-    {
       title: "Banquet at the Crossbowmen’s Guild in Celebration of the Treaty of Münster",
       author: "Bartholomeus van der Helst",
       imageUrl: "https://lh3.googleusercontent.com/kmCDKP1kMN72zB-7CHBOBdCnyU3Z-NW7WIzuN_sIqm5n9xf6lG4oTtfcWsGW8qhbVYuwSDkYlhOglx7z4YaFL8UeFWU=s0",
@@ -53,13 +49,36 @@ function App() {
       author: "Cornelis Cornelisz. van Haarlem",
       imageUrl: "https://lh5.ggpht.com/JH0svNh0Pkov_W97MDHw8v2-qKS8AdixVJ-CiPL_xBECNdEyTBkicMvZBsqgW6GQ0TB9moKnfGUYacWQS32rqeoEjA4=s0",
     },
+    {
+      title: "Children of the Sea",
+      author: "Jozef Israëls",
+      imageUrl: "https://lh3.googleusercontent.com/BMvxPb9RF9F-qz68PAIIrROTp7G352oNEzZWmmT-H1YXSgf2Id33oQBssFYnPL52KwiyFgYY1pSInpEVrhrx1OViFQ=s0",
+    },
   ];
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentItems = paintings.slice(startIndex, startIndex + itemsPerPage);
+
+  const totalPages = Math.ceil(paintings.length / itemsPerPage);
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
 
   return (
     <div>
-      <h1 className="page-title">Bienvenue, voici mes plus belles peintures</h1>
+      <h1 className="page-title">
+        Bienvenue, voici mes plus belles peintures (Bon en vrai c'est pas vraiment les miennes quoi, mais bon !!)
+      </h1>
       <div className="painting-grid">
-        {paintings.map((painting, index) => (
+        {currentItems.map((painting, index) => (
           <PaintingDisplay
             key={index}
             title={painting.title}
@@ -68,8 +87,67 @@ function App() {
           />
         ))}
       </div>
+      <div className="pagination">
+        <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+          Précédent
+        </button>
+        <span>
+          Page {currentPage} sur {totalPages}
+        </span>
+        <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+          Suivant
+        </button>
+      </div>
     </div>
   );
 }
 
 export default App;
+
+
+// function App() {
+//   const [paintings, setPaintings] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const API_URL = "http://www.rijksmuseum.nl/api/en/collection?key=YOUR_API_KEY&format=json";
+
+//   useEffect(() => {
+//     const fetchPaintings = async () => {
+//       try {
+//         const response = await fetch(API_URL);
+//         const data = await response.json();
+//         const artworks = data.artObjects.map((artwork) => ({
+//           title: artwork.title,
+//           author: artwork.principalOrFirstMaker,
+//           imageUrl: artwork.webImage?.url || "https://via.placeholder.com/150",
+//         }));
+//         setPaintings(artworks);
+//       } catch (error) {
+//         console.error("Erreur de chargement :", error);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchPaintings();
+//   }, []);
+
+//   return (
+//     <div>
+//       <h1>Mes Peintures Préférées</h1>
+//       {loading ? (
+//         <p>Chargement des peintures...</p>
+//       ) : (
+//         <div className="painting-grid">
+//           {paintings.map((painting, index) => (
+//             <div key={index} className="painting-card">
+//               <img src={painting.imageUrl} alt={painting.title} />
+//               <h3>{painting.title}</h3>
+//               <p>{painting.author}</p>
+//             </div>
+//           ))}
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+
