@@ -72,6 +72,10 @@ function App() {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
   };
 
+  const handleReset = () => {
+    setCurrentPage(1);
+  };
+
   return (
     <div>
       <h1 className="page-title">
@@ -97,6 +101,10 @@ function App() {
         <button onClick={handleNextPage} disabled={currentPage === totalPages}>
           Suivant
         </button>
+        <button onClick={handleReset}>
+          Reset
+        </button>
+
       </div>
     </div>
   );
