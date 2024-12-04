@@ -9,7 +9,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
+  const itemsPerPage = 8;
 
   const apiKey = "pYwXfSZ3";
 
@@ -18,7 +18,7 @@ function App() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://www.rijksmuseum.nl/api/en/collection?key=${apiKey}&format=json`
+          `https://www.rijksmuseum.nl/api/en/collection?key=${apiKey}&ps=100`
         );
         const result = await response.json();
         const artworks = result.artObjects.map((artwork) => ({
