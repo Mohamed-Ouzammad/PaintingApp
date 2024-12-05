@@ -12,6 +12,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [paintingDescription, setPaintingDescription] = useState(null);
   const itemsPerPage = 8;
 
   const apiUrl = "/.netlify/functions/get-collection";
@@ -28,7 +29,8 @@ function App() {
           title: artwork.title,
           author: artwork.principalOrFirstMaker,
           imageUrl: artwork.webImage?.url || "",
-          isClickable: Math.random() > 0.5,
+          objectNumber: artwork.objectNumber,
+          isClickable: true,
         }));
         setData(artworks);
       } catch (error) {
@@ -55,12 +57,24 @@ function App() {
     setCurrentPage(pageNumber);
   };
 
-  const openModal = (imageUrl) => {
+  const fetchPaintingDescription = async (objectNumber) => {
+    try {
+      const response = await fetch(`/.netlify/functions/get-description?objectNumber=${objectNumber}`);
+      const data = await response.json();
+      setPaintingDescription(data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération de la description :", error);
+    }
+  };
+
+  const openModal = (imageUrl, objectNumber) => {
     setSelectedImage(imageUrl);
+    fetchPaintingDescription(objectNumber);
   };
 
   const closeModal = () => {
     setSelectedImage(null);
+    setPaintingDescription(null);
   };
 
   return (
@@ -75,7 +89,9 @@ function App() {
               <ToClick
                 key={index}
                 isClickable={painting.isClickable}
-                onClick={() => painting.isClickable && openModal(painting.imageUrl)}
+                onClick={() =>
+                  painting.isClickable && openModal(painting.imageUrl, painting.objectNumber)
+                }
               >
                 <PaintingDisplay
                   title={painting.title}
@@ -92,7 +108,11 @@ function App() {
           />
         </>
       )}
-      <ImageModal imageUrl={selectedImage} onClose={closeModal} />
+      <ImageModal
+        imageUrl={selectedImage}
+        onClose={closeModal}
+        description={paintingDescription?.description || "Description non disponible."}
+      />
     </div>
   );
 }

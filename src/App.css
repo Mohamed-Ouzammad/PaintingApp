@@ -193,7 +193,6 @@ body {
   align-items: center;
   z-index: 1000;
   overflow: auto;
-
 }
 
 .modal-content {
@@ -202,7 +201,9 @@ body {
   max-height: 90%;
   overflow-x: hidden;
   overflow-y: auto;
-  object-fit: contain;
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
 }
 
 .modal-content img {
@@ -224,4 +225,11 @@ body {
   height: 30px;
   font-size: 16px;
   cursor: pointer;
+}
+
+.description {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
 }

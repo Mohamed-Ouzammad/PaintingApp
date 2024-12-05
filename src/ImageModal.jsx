@@ -1,13 +1,19 @@
-import React from "react";
+import React from 'react';
 
-function ImageModal({ imageUrl, onClose }) {
+function ImageModal({ imageUrl, onClose, description }) {
     if (!imageUrl) return null;
 
     return (
-        <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                <img src={imageUrl} alt="Zoomed" />
-                <button className="close-button" onClick={onClose}>Fermer</button>
+        <div className="modal-overlay">
+            <div className="modal-content">
+                <span className="close-button" onClick={onClose}>&times;</span>
+                <img src={imageUrl} alt="Selected" className="modal-image" />
+                {description && (
+                    <div className="description">
+                        <h3>Description :</h3>
+                        <p>{description}</p>
+                    </div>
+                )}
             </div>
         </div>
     );
