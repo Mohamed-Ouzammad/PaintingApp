@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import PaintingDisplay from "./PaintingDisplay";
 import Pagination from "./Pagination";
+import ToClick from "./ToClick";
 import "./App.css";
 
 function App() {
@@ -11,20 +12,23 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
-  const apiKey = "pYwXfSZ3";
+  const apiUrl = "/.netlify/functions/get-collection";
+
+  const params = new URLSearchParams({
+    ps: 100,
+  });
 
   useEffect(() => {
     setIsLoading(true);
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `https://www.rijksmuseum.nl/api/en/collection?key=${apiKey}&ps=100`
-        );
+        const response = await fetch(`${apiUrl}?${params.toString()}`);
         const result = await response.json();
         const artworks = result.artObjects.map((artwork) => ({
           title: artwork.title,
           author: artwork.principalOrFirstMaker,
           imageUrl: artwork.webImage?.url || "",
+          isClickable: Math.random() > 0.5,
         }));
         setData(artworks);
       } catch (error) {
@@ -51,6 +55,10 @@ function App() {
     setCurrentPage(pageNumber);
   };
 
+  const handleClick = (title) => {
+    alert(`Vous avez cliqué sur l'image : ${title}`);
+  };
+
   return (
     <div>
       <Navbar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
@@ -60,12 +68,17 @@ function App() {
         <>
           <div className="painting-grid">
             {currentItems.map((painting, index) => (
-              <PaintingDisplay
+              <ToClick
                 key={index}
-                title={painting.title}
-                author={painting.author}
-                imageUrl={painting.imageUrl}
-              />
+                onClick={() => handleClick(painting.title)}
+                isClickable={painting.isClickable}
+              >
+                <PaintingDisplay
+                  title={painting.title}
+                  author={painting.author}
+                  imageUrl={painting.imageUrl}
+                />
+              </ToClick>
             ))}
           </div>
           <Pagination

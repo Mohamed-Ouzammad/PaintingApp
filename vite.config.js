@@ -8,7 +8,7 @@ export default defineConfig({
     hmr: true,
     port: 5174,
     proxy: {
-      '/.netlify/functions': {
+      '/.netlify/functions/': {
         target: 'http://localhost:8888',
         changeOrigin: true,
         rewrite: (path) => path.replace('', ''),
