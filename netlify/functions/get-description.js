@@ -32,7 +32,7 @@ export const handler = async (event, context) => {
     } catch (error) {
         console.error("Error fetching data: ", error);
         return {
-            statusCode: 500,
+            statusCode: 200,
             body: JSON.stringify({ error: "An error occurred while fetching the description." })
         };
     }
