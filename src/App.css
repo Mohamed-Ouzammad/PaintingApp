@@ -192,12 +192,17 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  overflow: auto;
+
 }
 
 .modal-content {
   position: relative;
   max-width: 90%;
   max-height: 90%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  object-fit: contain;
 }
 
 .modal-content img {
