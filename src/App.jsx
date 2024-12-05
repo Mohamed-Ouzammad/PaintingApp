@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import PaintingDisplay from "./PaintingDisplay";
 import Pagination from "./Pagination";
+import ImageModal from "./ImageModal";
 import ToClick from "./ToClick";
 import "./App.css";
 
@@ -10,20 +11,19 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedImage, setSelectedImage] = useState(null);
   const itemsPerPage = 8;
 
   const apiUrl = "/.netlify/functions/get-collection";
-
-  const params = new URLSearchParams({
-    ps: 100,
-  });
 
   useEffect(() => {
     setIsLoading(true);
     const fetchData = async () => {
       try {
+        const params = new URLSearchParams({ ps: 100 });
         const response = await fetch(`${apiUrl}?${params.toString()}`);
         const result = await response.json();
+
         const artworks = result.artObjects.map((artwork) => ({
           title: artwork.title,
           author: artwork.principalOrFirstMaker,
@@ -55,8 +55,12 @@ function App() {
     setCurrentPage(pageNumber);
   };
 
-  const handleClick = (title) => {
-    alert(`Vous avez cliqué sur l'image : ${title}`);
+  const openModal = (imageUrl) => {
+    setSelectedImage(imageUrl);
+  };
+
+  const closeModal = () => {
+    setSelectedImage(null);
   };
 
   return (
@@ -70,8 +74,8 @@ function App() {
             {currentItems.map((painting, index) => (
               <ToClick
                 key={index}
-                onClick={() => handleClick(painting.title)}
                 isClickable={painting.isClickable}
+                onClick={() => painting.isClickable && openModal(painting.imageUrl)}
               >
                 <PaintingDisplay
                   title={painting.title}
@@ -88,6 +92,7 @@ function App() {
           />
         </>
       )}
+      <ImageModal imageUrl={selectedImage} onClose={closeModal} />
     </div>
   );
 }
