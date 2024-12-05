@@ -11,7 +11,7 @@ export const handler = async (event, context) => {
 
     const apiKey = process.env.VITE_API_KEY;
     const culture = 'en';
-    const apiUrl = `https://www.rijksmuseum.nl/api/${culture}/${objectNumber}?key=${apiKey}`;
+    const apiUrl = `https://www.rijksmuseum.nl/api/${culture}/collection/${objectNumber}?key=${apiKey}`;
 
     console.log(`API URL: ${apiUrl}`);
 
@@ -32,7 +32,7 @@ export const handler = async (event, context) => {
     } catch (error) {
         console.error("Error fetching data: ", error);
         return {
-            statusCode: 200,
+            statusCode: 500,
             body: JSON.stringify({ error: "An error occurred while fetching the description." })
         };
     }

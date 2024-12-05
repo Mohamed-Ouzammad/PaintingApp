@@ -4,6 +4,7 @@ function ImageModal({ imageUrl, onClose, description }) {
     if (!imageUrl) return null;
 
     return (
+        console.log(description),
         <div className="modal-overlay">
             <div className="modal-content">
                 <span className="close-button" onClick={onClose}>&times;</span>
